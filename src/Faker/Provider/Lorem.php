@@ -2,7 +2,7 @@
 
 namespace Faker\Provider;
 
-class Lorem extends Base
+class Lorem extends \Faker\Provider\Base
 {
     protected static $wordList = array(
         'alias', 'consequatur', 'aut', 'perferendis', 'sit', 'voluptatem',
@@ -68,7 +68,7 @@ class Lorem extends Base
             $words []= static::word();
         }
 
-        return $asText ? implode(' ', $words) : $words;
+        return $asText ? join(' ', $words) : $words;
     }
 
     /**
@@ -92,7 +92,31 @@ class Lorem extends Base
         $words = static::words($nbWords);
         $words[0] = ucwords($words[0]);
 
-        return implode($words, ' ') . '.';
+        return join($words, ' ') . '.';
+    }
+
+        /**
+     * Generate a random sentence without a period
+     *
+     * @example 'Lorem ipsum dolor sit amet.'
+     * @param integer $nbWords         around how many words the sentence should contain
+     * @param boolean $variableNbWords set to false if you want exactly $nbWords returned,
+     *                                  otherwise $nbWords may vary by +/-40% with a minimum of 1
+     * @return string
+     */
+    public static function sentencenoperiod($nbWords = 6, $variableNbWords = true)
+    {
+        if ($nbWords <= 0) {
+            return '';
+        }
+        if ($variableNbWords) {
+            $nbWords = self::randomizeNbElements($nbWords);
+        }
+
+        $words = static::words($nbWords);
+        $words[0] = ucwords($words[0]);
+
+        return join($words, ' ');
     }
 
     /**
@@ -110,7 +134,7 @@ class Lorem extends Base
             $sentences []= static::sentence();
         }
 
-        return $asText ? implode(' ', $sentences) : $sentences;
+        return $asText ? join(' ', $sentences) : $sentences;
     }
 
     /**
@@ -131,7 +155,7 @@ class Lorem extends Base
             $nbSentences = self::randomizeNbElements($nbSentences);
         }
 
-        return implode(static::sentences($nbSentences), ' ');
+        return join(static::sentences($nbSentences), ' ');
     }
 
     /**
@@ -149,7 +173,7 @@ class Lorem extends Base
             $paragraphs []= static::paragraph();
         }
 
-        return $asText ? implode("\n\n", $paragraphs) : $paragraphs;
+        return $asText ? join("\n\n", $paragraphs) : $paragraphs;
     }
 
     /**
@@ -205,7 +229,7 @@ class Lorem extends Base
             }
         }
 
-        return implode($text, '');
+        return join($text, '');
     }
 
     protected static function randomizeNbElements($nbElements)
